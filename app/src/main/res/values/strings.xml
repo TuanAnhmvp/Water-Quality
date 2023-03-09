@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">HauiWaterQuality</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="refresh">Refresh</string>
+    <string name="ph">Độ Ph</string>
+    <string name="nhi_t">Nhiệt độ</string>
+    <string name="n_ng_oxi">Nồng độ Oxi</string>
+    <string name="l_m_m_i">Làm mới</string>
+    <string name="tho_t">Thoát</string>
+    <string name="kh_ng_c_k_t_n_i_internet">Không có kết nối Internet!</string>
+    <string name="turn_off">Turn Off</string>
+    <string name="cancel">Hủy</string>
+    <string name="ok">OK</string>
+    <string name="message_turn_off_app">Bạn có muốn thoát khỏi ứng dụng không?</string>
+    <string name="dong_ung_dung">Đóng ứng dụng</string>
+</resources>
