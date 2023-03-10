@@ -37,7 +37,7 @@ class HomeFragment : AbsBaseFragment<FragmentHomeBinding>() {
         binding.viewModel = mViewModel
         mViewModel.checkInternet(requireContext())
         mViewModel.getData()
-        onBackPressed()
+
         observer()
 
         lifecycleScope.launch(Dispatchers.Default) {
@@ -133,16 +133,7 @@ class HomeFragment : AbsBaseFragment<FragmentHomeBinding>() {
             .show()
     }
 
-    private fun onBackPressed() {
-        val onBackPressedCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                requireActivity().finish()
 
-            }
-
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
-    }
 
 
 

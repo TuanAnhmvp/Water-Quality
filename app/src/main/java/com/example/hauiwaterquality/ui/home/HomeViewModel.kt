@@ -6,17 +6,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hauiwaterquality.data.api.responseremote.DataApp
-import com.example.hauiwaterquality.data.repository.HauiRepository
+import com.example.hauiwaterquality.data.repository.RemoteRepository
 import com.example.hauiwaterquality.data.response.DataResponse
-import com.example.hauiwaterquality.data.response.LoadingStatus
 import com.example.hauiwaterquality.utils.CheckInternet
-import dagger.hilt.android.HiltAndroidApp
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val hauiRepository: HauiRepository): ViewModel() {
+class HomeViewModel @Inject constructor(private val remoteRepository: RemoteRepository) :
+    ViewModel() {
 
     val dataResponseLiveData = MutableLiveData<DataResponse<DataApp>?>(DataResponse.DataIdle())
     val checkInternet = MutableLiveData<Boolean>()
@@ -24,7 +23,7 @@ class HomeViewModel @Inject constructor(private val hauiRepository: HauiReposito
     fun getData() {
         //dataResponseLiveData.value = DataResponse.DataLoading(LoadingStatus.Loading)
         viewModelScope.launch {
-            val result = hauiRepository.getData()
+            val result = remoteRepository.getData()
             Log.d("fasdfasdf", "ressult = $result")
             if (result != null) {
                 dataResponseLiveData.postValue(DataResponse.DataSuccess(result))
@@ -37,7 +36,7 @@ class HomeViewModel @Inject constructor(private val hauiRepository: HauiReposito
     fun checkInternet(context: Context) {
         if (checkForInternet(context)) {
             checkInternet.postValue(true)
-        } else  {
+        } else {
             checkInternet.postValue(false)
         }
     }

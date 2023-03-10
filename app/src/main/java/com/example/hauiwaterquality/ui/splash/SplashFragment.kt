@@ -10,7 +10,7 @@ import com.example.hauiwaterquality.ui.base.AbsBaseFragment
 class SplashFragment : AbsBaseFragment<FragmentSplashBinding>() {
     private val handler = Handler(Looper.myLooper()!!)
     private val runnable = Runnable {
-        findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToHomeFragment())
+        findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToLoginFragment())
     }
 
     override fun getLayout(): Int {

@@ -12,6 +12,13 @@
     <string name="turn_off">Turn Off</string>
     <string name="cancel">Hủy</string>
     <string name="ok">OK</string>
+    <string name="no_internet">No internet connection!</string>
     <string name="message_turn_off_app">Bạn có muốn thoát khỏi ứng dụng không?</string>
     <string name="dong_ung_dung">Đóng ứng dụng</string>
+    <string name="dang_nhap_khong_thanh_cong">Đăng nhập không thành công</string>
+    <string name="ten_tai_khoan_hoac_mat_khau_khong_chinh_xac">Tên tài khoản hoặc mật khẩu không chính xác</string>
+    <string name="tvlogin">Đăng nhập</string>
+    <string name="ng_nh_p">Đăng Nhập</string>
+    <string name="m_t_kh_u">Mật khẩu</string>
+    <string name="t_n_ng_nh_p">Tên đăng nhập</string>
 </resources>
