@@ -11,7 +11,6 @@ import com.example.hauiwaterquality.data.response.LoadingStatus
 import com.example.hauiwaterquality.databinding.FragmentLoginBinding
 import com.example.hauiwaterquality.ui.base.AbsBaseFragment
 import com.example.hauiwaterquality.utils.CheckInternet
-import com.example.hauiwaterquality.utils.ToastUtils
 import com.example.hauiwaterquality.utils.Utils
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -37,8 +36,12 @@ class LoginFragment : AbsBaseFragment<FragmentLoginBinding>() {
                 if (checkForInternet(requireContext())) {
                     mViewModel.checkLogin()
                 } else {
-                    ToastUtils.getInstance(requireContext())
-                        .showToast(getString(R.string.kh_ng_c_k_t_n_i_internet))
+                    Snackbar.make(
+                        binding.layoutRoot,
+                        R.string.kh_ng_c_k_t_n_i_internet,
+                        Snackbar.LENGTH_SHORT
+                    )
+                        .show()
 
                 }
             } else {

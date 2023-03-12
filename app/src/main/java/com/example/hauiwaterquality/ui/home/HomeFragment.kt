@@ -49,15 +49,15 @@ class HomeFragment : AbsBaseFragment<FragmentHomeBinding>() {
         }
 
         binding.card1.setOnClickListener {
-
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(1))
         }
 
         binding.card2.setOnClickListener {
-
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(2))
         }
 
         binding.card3.setOnClickListener {
-
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(3))
         }
 
         binding.topAppBar.setOnMenuItemClickListener { menuItem ->
@@ -86,25 +86,29 @@ class HomeFragment : AbsBaseFragment<FragmentHomeBinding>() {
                 if (it.loadingStatus == LoadingStatus.Success) {
                     val body = (it as DataResponse.DataSuccess).body
                     val temperature = body.temperature
-
-                    if (temperature in 20.0..30.0) {
-                        binding.tvWarningTemp.text = "Nhiệt độ tốt"
-                        binding.layoutTemperature.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.good))
-                    } else if (temperature <18) {
-                        binding.tvWarningTemp.text = "Cảnh báo nhiệt độ thấp"
-                        binding.layoutTemperature.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.not_good))
-                    }else if (temperature >33) {
-                        binding.tvWarningTemp.text = "Cảnh báo nhiệt độ cao"
-                        binding.layoutTemperature.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.not_good))
-                    }
-                    else {
-                        binding.tvWarningTemp.text = "Nhiệt độ bình thường"
-                        binding.layoutTemperature.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.good))
+                    when {
+                        temperature in 20.0..30.0 -> {
+                            binding.tvWarningTemp.text = "Nhiệt độ tốt"
+                            binding.layoutTemperature.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.good))
+                        }
+                        temperature < 18 -> {
+                            binding.tvWarningTemp.text = "Cảnh báo nhiệt độ thấp"
+                            binding.layoutTemperature.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.not_good))
+                        }
+                        temperature > 33 -> {
+                            binding.tvWarningTemp.text = "Cảnh báo nhiệt độ cao"
+                            binding.layoutTemperature.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.not_good))
+                        }
+                        else -> {
+                            binding.tvWarningTemp.text = "Nhiệt độ bình thường"
+                            binding.layoutTemperature.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.good))
+                        }
                     }
 
                     binding.tvTemperature.text = "${body.temperature}℃"
                     //binding.tvTimeTemperature.text = body.timestamps.toString()
                     binding.tvTimeTemperature.text = epochToIso8601(1678336226)
+                    //binding.tvTimeTemperature.text = epochToIso8601(body.timestamps)
 
                 }
 
