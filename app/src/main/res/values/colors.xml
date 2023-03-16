@@ -9,7 +9,7 @@
     <color name="white">#FFFFFF</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="good">#8BC34A</color>
-    <color name="not_good">#E91E63</color>
+    <color name="not_good">#FF0057</color>
 
     //skeleton
     <color name="skeleton">#BBBEC1</color>

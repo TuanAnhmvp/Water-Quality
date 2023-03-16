@@ -23,10 +23,11 @@ fun TextView.setTextTime(time: Long) {
 }
 
 private fun epochToIso8601(time: Long): String {
+    val timeZ = time.toString().substring(0, time.toString().length-3).toLong()
     val format = "dd MMM yyyy - HH:mm:ss" // you can add the format you need
     val sdf = SimpleDateFormat(format, Locale.getDefault()) // default local
     sdf.timeZone = TimeZone.getDefault() // set anytime zone you need
-    return sdf.format(Date(time * 1000))
+    return sdf.format(Date(timeZ * 1000))
 }
 
 

@@ -1,11 +1,7 @@
 package com.example.hauiwaterquality.ui.home
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.os.Handler
-import android.os.Looper
-import android.view.View
-import androidx.activity.OnBackPressedCallback
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -15,9 +11,7 @@ import com.example.hauiwaterquality.data.response.DataResponse
 import com.example.hauiwaterquality.data.response.LoadingStatus
 import com.example.hauiwaterquality.databinding.FragmentHomeBinding
 import com.example.hauiwaterquality.ui.base.AbsBaseFragment
-import com.example.hauiwaterquality.utils.CheckInternet
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -73,6 +67,7 @@ class HomeFragment : AbsBaseFragment<FragmentHomeBinding>() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private fun observer() {
         mViewModel.dataResponseLiveData.observe(this) {
             it?.let {
@@ -86,6 +81,8 @@ class HomeFragment : AbsBaseFragment<FragmentHomeBinding>() {
                 if (it.loadingStatus == LoadingStatus.Success) {
                     val body = (it as DataResponse.DataSuccess).body
                     val temperature = body.temperature
+                    val ph = body.pH
+                    val oxi = body.Oxi
                     when {
                         temperature in 20.0..30.0 -> {
                             binding.tvWarningTemp.text = "Nhiệt độ tốt"
@@ -105,9 +102,47 @@ class HomeFragment : AbsBaseFragment<FragmentHomeBinding>() {
                         }
                     }
 
-                    binding.tvTemperature.text = "${body.temperature}℃"
+                    when {
+                        oxi > 5 -> {
+                            binding.tvWarningOxi.text = "Nồng độ Oxi tốt"
+                            binding.layoutOxi.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.good))
+                        }
+                        oxi < 3.5 -> {
+                            binding.tvWarningOxi.text = "Cảnh báo nồng độ Oxi thấp"
+                            binding.layoutOxi.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.not_good))
+                        }
+                        else -> {
+                            binding.tvWarningOxi.text = "Nồng độ Oxi bình thường"
+                            binding.layoutOxi.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.good))
+                        }
+                    }
+
+                    when {
+                        ph in 7.5..8.5 -> {
+                            binding.tvWarningPh.text = "Độ Ph tốt"
+                            binding.layoutPh.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.good))
+                        }
+                        ph < 7 -> {
+                            binding.tvWarningPh.text = "Cảnh báo độ Ph thấp"
+                            binding.layoutPh.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.not_good))
+                        }
+                        ph > 9 -> {
+                            binding.tvWarningPh.text = "Cảnh báo độ Ph cao"
+                            binding.layoutPh.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.not_good))
+                        }
+                        else -> {
+                            binding.tvWarningPh.text = "Độ Ph bình thường"
+                            binding.layoutPh.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.good))
+                        }
+                    }
+
+                    binding.tvTemperature.text = "${"%.3f".format(body.temperature)}℃"
+                    binding.tvOxi.text = "${"%.3f".format(body.Oxi)} mg/l"
+                    binding.tvPh.text = "%.3f".format(body.pH)
                     //binding.tvTimeTemperature.text = body.timestamps.toString()
-                    binding.tvTimeTemperature.text = epochToIso8601(1678336226)
+                    binding.tvTimeTemperature.text = epochToIso8601(body.timestamps)
+                    binding.tvTimeOxi.text = epochToIso8601(body.timestamps)
+                    binding.tvTimePh.text = epochToIso8601(body.timestamps)
                     //binding.tvTimeTemperature.text = epochToIso8601(body.timestamps)
 
                 }
@@ -118,10 +153,11 @@ class HomeFragment : AbsBaseFragment<FragmentHomeBinding>() {
     }
 
     private fun epochToIso8601(time: Long): String {
+        val timeZ = time.toString().substring(0, time.toString().length-3).toLong()
         val format = "dd MMM yyyy - HH:mm:ss" // you can add the format you need
         val sdf = SimpleDateFormat(format, Locale.getDefault()) // default local
         sdf.timeZone = TimeZone.getDefault() // set anytime zone you need
-        return sdf.format(Date(time * 1000))
+        return sdf.format(Date(timeZ * 1000))
     }
 
     private fun showTurnOffDialog() {

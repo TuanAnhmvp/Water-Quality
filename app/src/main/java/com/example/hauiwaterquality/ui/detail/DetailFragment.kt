@@ -30,7 +30,7 @@ class DetailFragment : AbsBaseFragment<FragmentDetailBinding>() {
     private lateinit var mLayoutManager: LinearLayoutManager
 
     private var temperatureAdapter = TemperatureAdapter()
-    private var phtureAdapter = PhAdapter()
+    private var phAdapter = PhAdapter()
     private var oxiAdapter = OxiAdapter()
 
     override fun getLayout(): Int {
@@ -51,7 +51,7 @@ class DetailFragment : AbsBaseFragment<FragmentDetailBinding>() {
             }
             3 -> {
                 binding.topAppBar.title = "Độ Ph"
-                binding.rV.adapter = phtureAdapter
+                binding.rV.adapter = phAdapter
             }
 
         }
@@ -156,13 +156,56 @@ class DetailFragment : AbsBaseFragment<FragmentDetailBinding>() {
 
                 binding.tvSum.text = "Số lần đo: ${listData.size}"
                 binding.tvAverage.text =
-                    "Nhiệt độ trung bình: ${(average * 1000.0).roundToInt() / 1000.0}°C"
+                    "Nhiệt độ trung bình: ${"%.3f".format(average)}°C"
             }
             2 -> {
+                oxiAdapter.submit(listData)
+                listData.forEach {
+                    average += it.Oxi
+                }
+                average = (average / listData.size)
 
+                if (average > 5) {
+                    binding.tvAlert.text = "Nồng độ Oxi tốt"
+                    binding.layoutBottom.setBackgroundResource(R.drawable.bg_bottom_sheet_good)
+                } else if (average < 3.5) {
+                    binding.tvAlert.text = "Cảnh báo nồng độ Oxi thấp"
+                    binding.layoutBottom.setBackgroundResource(R.drawable.bg_bottom_sheet_not_good)
+                } else {
+                    binding.tvAlert.text = "Nồng độ Oxi bình thường"
+                    binding.layoutBottom.setBackgroundResource(R.drawable.bg_bottom_sheet_good)
+                }
+
+
+                binding.tvSum.text = "Số lần đo: ${listData.size}"
+                binding.tvAverage.text =
+                    "Nồng độ Oxi trung bình: ${"%.3f".format(average)} mg/l"
             }
             3 -> {
+                phAdapter.submit(listData)
+                listData.forEach {
+                    average += it.pH
+                }
+                average = (average / listData.size)
 
+                if (average in 7.5..8.5) {
+                    binding.tvAlert.text = "Độ Ph tốt"
+                    binding.layoutBottom.setBackgroundResource(R.drawable.bg_bottom_sheet_good)
+                } else if (average < 7) {
+                    binding.tvAlert.text = "Cảnh báo độ Ph thấp"
+                    binding.layoutBottom.setBackgroundResource(R.drawable.bg_bottom_sheet_not_good)
+                } else if (average > 9) {
+                    binding.tvAlert.text = "Cảnh báo độ Ph cao"
+                    binding.layoutBottom.setBackgroundResource(R.drawable.bg_bottom_sheet_not_good)
+                } else {
+                    binding.tvAlert.text = "Độ Ph bình thường"
+                    binding.layoutBottom.setBackgroundResource(R.drawable.bg_bottom_sheet_good)
+                }
+
+
+                binding.tvSum.text = "Số lần đo: ${listData.size}"
+                binding.tvAverage.text =
+                    "Độ Ph trung bình: ${"%.3f".format(average)}"
             }
 
         }
