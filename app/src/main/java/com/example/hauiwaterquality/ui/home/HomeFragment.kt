@@ -1,6 +1,8 @@
 package com.example.hauiwaterquality.ui.home
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
@@ -54,6 +56,12 @@ class HomeFragment : AbsBaseFragment<FragmentHomeBinding>() {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(3))
         }
 
+        binding.btnAnalytics.setOnClickListener {
+            //val urlIntent = Intent("android.intent.action.VIEW", Uri.parse("https://notebooknew-ruli.notebook.us-east-1.sagemaker.aws/notebooks/IoTAnalytics/Untitled.ipynb"))
+            val urlIntent = Intent("android.intent.action.VIEW", Uri.parse("https://notebookhaui.notebook.us-east-1.sagemaker.aws/notebooks/Analytic_Haui.ipynb"))
+            startActivity(urlIntent)
+        }
+
         binding.topAppBar.setOnMenuItemClickListener { menuItem ->
             when(menuItem.itemId) {
                 R.id.turnOff -> {
@@ -65,6 +73,29 @@ class HomeFragment : AbsBaseFragment<FragmentHomeBinding>() {
             }
         }
 
+    }
+
+
+
+    private fun epochToIso8601(time: Long): String {
+        val timeZ = time.toString().substring(0, time.toString().length-3).toLong()
+        val format = "dd MMM yyyy - HH:mm:ss" // you can add the format you need
+        val sdf = SimpleDateFormat(format, Locale.getDefault()) // default local
+        sdf.timeZone = TimeZone.getDefault() // set anytime zone you need
+        return sdf.format(Date(timeZ * 1000))
+    }
+
+    private fun showTurnOffDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(resources.getString(R.string.dong_ung_dung))
+            .setMessage(resources.getString(R.string.message_turn_off_app))
+            .setNegativeButton(resources.getString(R.string.cancel)) { _, _ ->
+            }
+            .setPositiveButton(resources.getString(R.string.ok)) { _, _ ->
+                // Respond to positive button press
+            requireActivity().finish()
+            }
+            .show()
     }
 
     @SuppressLint("SetTextI18n")
@@ -150,27 +181,6 @@ class HomeFragment : AbsBaseFragment<FragmentHomeBinding>() {
             }
         }
 
-    }
-
-    private fun epochToIso8601(time: Long): String {
-        val timeZ = time.toString().substring(0, time.toString().length-3).toLong()
-        val format = "dd MMM yyyy - HH:mm:ss" // you can add the format you need
-        val sdf = SimpleDateFormat(format, Locale.getDefault()) // default local
-        sdf.timeZone = TimeZone.getDefault() // set anytime zone you need
-        return sdf.format(Date(timeZ * 1000))
-    }
-
-    private fun showTurnOffDialog() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(resources.getString(R.string.dong_ung_dung))
-            .setMessage(resources.getString(R.string.message_turn_off_app))
-            .setNegativeButton(resources.getString(R.string.cancel)) { _, _ ->
-            }
-            .setPositiveButton(resources.getString(R.string.ok)) { _, _ ->
-                // Respond to positive button press
-            requireActivity().finish()
-            }
-            .show()
     }
 
 

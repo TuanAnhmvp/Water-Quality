@@ -17,6 +17,13 @@
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_homeFragment_to_analyticsFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@anim/slide_out_left"
+            app:destination="@id/analyticsFragment" />
     </fragment>
     <fragment
         android:id="@+id/splashFragment"
@@ -43,6 +50,7 @@
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@anim/slide_out_left" />
+
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
@@ -53,4 +61,9 @@
             android:name="keyDetail"
             app:argType="integer" />
     </fragment>
+    <fragment
+        tools:layout="@layout/fragment_analytics"
+        android:id="@+id/analyticsFragment"
+        android:name="com.example.hauiwaterquality.ui.webview.AnalyticsFragment"
+        android:label="AnalyticsFragment" />
 </navigation>

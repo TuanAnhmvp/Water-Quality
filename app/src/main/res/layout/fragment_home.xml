@@ -301,6 +301,17 @@
 
                 </com.google.android.material.card.MaterialCardView>
 
+                <Button
+                    android:id="@+id/btnAnalytics"
+                    app:layout_constraintTop_toBottomOf="@id/card3"
+                    android:layout_marginVertical="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="Analytics"
+                    android:visibility="@{viewModel.checkInternet? View.VISIBLE:View.GONE}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 

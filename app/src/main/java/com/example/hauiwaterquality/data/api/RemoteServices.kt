@@ -7,7 +7,8 @@ import retrofit2.http.*
 
 interface RemoteServices {
 
-    @GET("/myKey")
+    //@GET("/myKey")
+    @GET("/mykey")
     suspend fun getData(
     ): DataApp?
 
